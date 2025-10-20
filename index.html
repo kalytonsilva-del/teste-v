@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ofício de Doações - Hollow Knight</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cinzel', serif;
+      background-color: #0d0d0d;
+      color: #ffffff;
+      background-image: url('https://cdn.wallpapersafari.com/79/47/YhFYyB.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      max-width: 700px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #2e004a87;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 6px #000000;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      line-height: 1.4;
+      text-shadow: 0 0 3px #0e0e0e;
+    }
+
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      flex: 1 1 45%;
+      min-width: 200px;
+      max-width: 250px;
+      padding: 15px;
+      font-size: 1.1em;
+      color: #ffffff;
+      background-color: #3b3b3b;
+      border: 2px solid #8c8c8c;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 5px #ffffff88;
+      user-select: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .button:hover,
+    .button:focus {
+      background-color: #000000;
+      box-shadow: 0 0 15px #5a00ff;
+      outline: none;
+    }
+
+    /* Modal estilo Hollow Knight */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(30, 0, 50, 0.9), rgba(0, 0, 0, 0.95));
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(3px);
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, rgba(10,10,20,0.95), rgba(25,0,35,0.9));
+      border: 1px solid rgba(180, 130, 255, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+      width: 90%;
+      max-width: 500px;
+      color: #fff;
+      text-align: left;
+      box-shadow: 0 0 25px rgba(120, 0, 255, 0.4);
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    /* Alteração pedida: cor branca com sombra roxa escura */
+    .modal-content h2 {
+      text-align: center;
+      margin-top: 0;
+      color: #ffffff;
+      text-shadow: 0 0 10px #2e004a, 0 0 20px #2e004a;
+    }
+
+    .close-btn {
+      float: right;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #bbb;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #fff;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background-color: rgba(40, 40, 60, 0.8);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      box-shadow: inset 0 0 5px rgba(120, 0, 255, 0.4);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .submit-btn {
+      background-color: rgba(54, 1, 95, 0.8);
+      border: 2px solid #bdaaff;
+      color: #fff;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+      box-shadow: 0 0 15px #000000;
+    }
+
+    @media (max-width: 600px) {
+      .button {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ação Voluntária</h1>
+    <p>Doações em dinheiro, roupas, sapatos ou doces. Para crianças ou idosos, diga seus desejos de Natal!</p>
+    <p><strong>PIX para doação:</strong> 089.885.639-64 (CPF)</p>
+
+    <div class="button-grid">
+      <a
+        href="https://wa.me/5548984009981?text=Ol%C3%A1%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doa%C3%A7%C3%A3o%20de%20roupas%20e%20sapatos.%20Fico%20no%20aguardo%20das%20instru%C3%A7%C3%B5es.%20Obrigado(a)!"
+        class="button" target="_blank" rel="noopener noreferrer"
+      >Quero doar roupas e sapatos</a>
+
+      <a
+        href="https://wa.me/5548984009981?text=Ol%C3%A1%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doa%C3%A7%C3%A3o%20de%20doces.%20Fico%20no%20aguardo%20das%20instru%C3%A7%C3%B5es.%20Obrigado(a)!"
+        class="button" target="_blank" rel="noopener noreferrer"
+      >Quero doar doces</a>
+
+      <!-- Botão: Pedidos de Natal -->
+      <button class="button" onclick="abrirModal()">Pedidos de Natal</button>
+
+      <!-- Botão: Compartilhar -->
+      <button class="button" onclick="compartilharSite()">Compartilhar Site</button>
+    </div>
+
+    <p>Seu gesto será lembrado na escuridão, como um raio de esperança.</p>
+  </div>
+
+  <!-- Modal -->
+  <div id="pedidoModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="fecharModal()">&times;</span>
+      <h2>Pedido de Natal</h2>
+      <form id="pedidoForm">
+        <label>1. Você é:</label>
+        <select id="tipo" required>
+          <option value="">Selecione...</option>
+          <option value="Criança">Criança</option>
+          <option value="Idoso">Idoso</option>
+          <option value="Padrinho">Padrinho</option>
+          <option value="Madrinha">Madrinha</option>
+        </select>
+
+        <label>2. Nome (obrigatório):</label>
+        <input type="text" id="nome" required placeholder="Digite seu nome" />
+
+        <label>3. Pedidos de Natal:</label>
+        <textarea id="pedido" required placeholder="Escreva aqui seus pedidos..."></textarea>
+
+        <label>4. Gmail (opcional):</label>
+        <input type="email" id="gmail" placeholder="seuemail@gmail.com" />
+
+        <button type="submit" class="submit-btn">Enviar Pedido</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('pedidoModal');
+    const form = document.getElementById('pedidoForm');
+
+    function abrirModal() {
+      modal.style.display = 'flex';
+    }
+
+    function fecharModal() {
+      modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      if (event.target === modal) fecharModal();
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const tipo = document.getElementById('tipo').value;
+      const nome = document.getElementById('nome').value;
+      const pedido = document.getElementById('pedido').value;
+      const gmail = document.getElementById('gmail').value;
+
+      const assunto = `Pedido de Natal - ${nome}`;
+      const corpo = `Tipo: ${tipo}%0D%0ANome: ${nome}%0D%0APedido: ${pedido}%0D%0AGmail: ${gmail || "Não informado"}`;
+
+      window.location.href = `mailto:Medeirosdoamaralanapaula@gmail.com?subject=${assunto}&body=${corpo}`;
+    });
+
+    function compartilharSite() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Ofício de Doações - Hollow Knight',
+          text: 'Participe dessa ação voluntária e espalhe esperança neste Natal!',
+          url: window.location.href
+        });
+      } else {
+        alert('Copie o link e compartilhe: ' + window.location.href);
+      }
+    }
+  </script>
+</body>
+</html>
