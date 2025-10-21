@@ -86,6 +86,43 @@
       text-shadow: 0 0 8px #4b0082;
     }
 
+    /* PIX Form */
+    .pix-form {
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .pix-form input {
+      width: 120px;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      background-color: rgba(40,40,60,0.8);
+      color: #fff;
+      box-shadow: inset 0 0 5px rgba(120, 0, 255, 0.4);
+      text-align: center;
+    }
+
+    .pix-form button {
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 2px solid #bdaaff;
+      background-color: rgba(90,0,180,0.8);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .pix-form button:hover {
+      background-color: rgba(140,0,255,0.9);
+      box-shadow: 0 0 15px #a66eff;
+    }
+
     /* Modal estilo Hollow Knight */
     .modal {
       display: none;
@@ -177,6 +214,9 @@
         flex: 1 1 100%;
         max-width: 100%;
       }
+      .pix-form input {
+        width: 100px;
+      }
     }
   </style>
 </head>
@@ -184,9 +224,15 @@
   <div class="container">
     <h1>Ação Voluntária</h1>
     <p>Doações em dinheiro, roupas, sapatos ou doces. Para crianças ou idosos, diga seus desejos de Natal!</p>
-    <p><strong>PIX para doação:</strong> 089.885.639-64 (CPF)</p>
 
-    <!-- Total arrecadado agora abaixo do PIX -->
+    <!-- Botão PIX e formulário inline -->
+    <div class="pix-form">
+      <span><strong>Envie seu PIX:</strong></span>
+      <input type="number" id="valorPix" placeholder="Valor R$" step="0.01" min="0"/>
+      <button onclick="adicionarPix()">Enviar</button>
+    </div>
+
+    <!-- Total arrecadado -->
     <div class="total-arrecadado">
       💰 Valor arrecadado até agora: <strong id="totalValor">R$ 0,00</strong>
     </div>
@@ -201,7 +247,7 @@
     <p>Seu gesto será lembrado na escuridão, como um raio de esperança.</p>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal Pedidos de Natal -->
   <div id="pedidoModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="fecharModal()">&times;</span>
@@ -234,43 +280,50 @@
   </div>
 
   <script>
-    const modal = document.getElementById('pedidoModal');
-    const form = document.getElementById('pedidoForm');
     const totalValorEl = document.getElementById('totalValor');
-
     let totalArrecadado = parseFloat(localStorage.getItem('totalArrecadado')) || 0;
     atualizarTotal();
 
-    function abrirModal() { modal.style.display = 'flex'; }
-    function fecharModal() { modal.style.display = 'none'; }
-    window.onclick = e => { if (e.target === modal) fecharModal(); };
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const valor = parseFloat(document.getElementById('valor').value) || 0;
-
-      // Atualiza o total arrecadado localmente
-      totalArrecadado += valor;
-      localStorage.setItem('totalArrecadado', totalArrecadado);
-      atualizarTotal();
-
-      alert("🎄 Pedido enviado com sucesso!\nMuito obrigado por participar!");
-      form.reset();
-      fecharModal();
-    });
+    // Função do botão PIX
+    function adicionarPix() {
+      const valor = parseFloat(document.getElementById('valorPix').value) || 0;
+      if(valor > 0){
+        totalArrecadado += valor;
+        localStorage.setItem('totalArrecadado', totalArrecadado);
+        atualizarTotal();
+        alert("PIX enviado com sucesso! Obrigado pela doação 💜");
+        document.getElementById('valorPix').value = "";
+      } else {
+        alert("Informe um valor válido para o PIX.");
+      }
+    }
 
     function atualizarTotal() {
       totalValorEl.textContent = "R$ " + totalArrecadado.toFixed(2).replace('.', ',');
     }
 
+    // Modal pedidos de Natal
+    const modal = document.getElementById('pedidoModal');
+    const form = document.getElementById('pedidoForm');
+
+    function abrirModal() { modal.style.display = 'flex'; }
+    function fecharModal() { modal.style.display = 'none'; }
+    window.onclick = e => { if(e.target === modal) fecharModal(); };
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const valor = parseFloat(document.getElementById('valor').value) || 0;
+      totalArrecadado += valor;
+      localStorage.setItem('totalArrecadado', totalArrecadado);
+      atualizarTotal();
+      alert("🎄 Pedido enviado com sucesso!\nMuito obrigado por participar!");
+      form.reset();
+      fecharModal();
+    });
+
     function compartilharSite() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'Ofício de Doações - Hollow Knight',
-          text: 'Participe dessa ação voluntária e espalhe esperança neste Natal!',
-          url: window.location.href
-        });
+      if(navigator.share){
+        navigator.share({title:'Ofício de Doações - Hollow Knight', text:'Participe dessa ação voluntária e espalhe esperança neste Natal!', url:window.location.href});
       } else {
         alert('Copie o link e compartilhe: ' + window.location.href);
       }
