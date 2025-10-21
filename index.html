@@ -112,12 +112,11 @@
       to {opacity: 1; transform: scale(1);}
     }
 
-    /* Alteração pedida: cor branca com sombra roxa escura */
     .modal-content h2 {
       text-align: center;
       margin-top: 0;
       color: #ffffff;
-      text-shadow: 0 0 10px #2e004a, 0 0 20px #2e004a;
+      text-shadow: 0 0 10px #2b006b;
     }
 
     .close-btn {
@@ -150,7 +149,7 @@
     }
 
     .submit-btn {
-      background-color: rgba(54, 1, 95, 0.8);
+      background-color: rgba(90, 0, 180, 0.8);
       border: 2px solid #bdaaff;
       color: #fff;
       padding: 12px;
@@ -162,8 +161,8 @@
     }
 
     .submit-btn:hover {
-      background-color: rgba(0, 0, 0, 0.9);
-      box-shadow: 0 0 15px #000000;
+      background-color: rgba(140, 0, 255, 0.9);
+      box-shadow: 0 0 15px #a66eff;
     }
 
     @media (max-width: 600px) {
@@ -181,20 +180,13 @@
     <p><strong>PIX para doação:</strong> 089.885.639-64 (CPF)</p>
 
     <div class="button-grid">
-      <a
-        href="https://wa.me/5548984009981?text=Ol%C3%A1%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doa%C3%A7%C3%A3o%20de%20roupas%20e%20sapatos.%20Fico%20no%20aguardo%20das%20instru%C3%A7%C3%B5es.%20Obrigado(a)!"
-        class="button" target="_blank" rel="noopener noreferrer"
-      >Quero doar roupas e sapatos</a>
+      <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doação%20de%20roupas%20e%20sapatos.%20Fico%20no%20aguardo%20das%20instruções.%20Obrigado(a)!" 
+         class="button" target="_blank" rel="noopener noreferrer">Quero doar roupas e sapatos</a>
 
-      <a
-        href="https://wa.me/5548984009981?text=Ol%C3%A1%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doa%C3%A7%C3%A3o%20de%20doces.%20Fico%20no%20aguardo%20das%20instru%C3%A7%C3%B5es.%20Obrigado(a)!"
-        class="button" target="_blank" rel="noopener noreferrer"
-      >Quero doar doces</a>
+      <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doação%20de%20doces.%20Fico%20no%20aguardo%20das%20instruções.%20Obrigado(a)!" 
+         class="button" target="_blank" rel="noopener noreferrer">Quero doar doces</a>
 
-      <!-- Botão: Pedidos de Natal -->
       <button class="button" onclick="abrirModal()">Pedidos de Natal</button>
-
-      <!-- Botão: Compartilhar -->
       <button class="button" onclick="compartilharSite()">Compartilhar Site</button>
     </div>
 
@@ -206,9 +198,11 @@
     <div class="modal-content">
       <span class="close-btn" onclick="fecharModal()">&times;</span>
       <h2>Pedido de Natal</h2>
-      <form id="pedidoForm">
+
+      <!-- 🚨 Substitua o link abaixo pelo SEU link do Formspree -->
+      <form id="pedidoForm" action="https://formspree.io/f/xgvnbkpb" method="POST">
         <label>1. Você é:</label>
-        <select id="tipo" required>
+        <select name="tipo" required>
           <option value="">Selecione...</option>
           <option value="Criança">Criança</option>
           <option value="Idoso">Idoso</option>
@@ -216,14 +210,14 @@
           <option value="Madrinha">Madrinha</option>
         </select>
 
-        <label>2. Nome (obrigatório):</label>
-        <input type="text" id="nome" required placeholder="Digite seu nome" />
+        <label>2. Nome:</label>
+        <input type="text" name="nome" required placeholder="Digite seu nome" />
 
-        <label>3. Pedidos de Natal:</label>
-        <textarea id="pedido" required placeholder="Escreva aqui seus pedidos..."></textarea>
+        <label>3. Desejos/Pedidos de Natal:</label>
+        <textarea name="pedido" required placeholder="Escreva aqui seus pedidos..."></textarea>
 
         <label>4. Gmail (opcional):</label>
-        <input type="email" id="gmail" placeholder="seuemail@gmail.com" />
+        <input type="email" name="gmail" placeholder="seuemail@gmail.com" />
 
         <button type="submit" class="submit-btn">Enviar Pedido</button>
       </form>
@@ -232,32 +226,9 @@
 
   <script>
     const modal = document.getElementById('pedidoModal');
-    const form = document.getElementById('pedidoForm');
-
-    function abrirModal() {
-      modal.style.display = 'flex';
-    }
-
-    function fecharModal() {
-      modal.style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-      if (event.target === modal) fecharModal();
-    };
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const tipo = document.getElementById('tipo').value;
-      const nome = document.getElementById('nome').value;
-      const pedido = document.getElementById('pedido').value;
-      const gmail = document.getElementById('gmail').value;
-
-      const assunto = `Pedido de Natal - ${nome}`;
-      const corpo = `Tipo: ${tipo}%0D%0ANome: ${nome}%0D%0APedido: ${pedido}%0D%0AGmail: ${gmail || "Não informado"}`;
-
-      window.location.href = `mailto:Medeirosdoamaralanapaula@gmail.com?subject=${assunto}&body=${corpo}`;
-    });
+    function abrirModal() { modal.style.display = 'flex'; }
+    function fecharModal() { modal.style.display = 'none'; }
+    window.onclick = (event) => { if (event.target === modal) fecharModal(); };
 
     function compartilharSite() {
       if (navigator.share) {
@@ -270,6 +241,26 @@
         alert('Copie o link e compartilhe: ' + window.location.href);
       }
     }
+
+    // Envio sem sair da página
+    const form = document.getElementById('pedidoForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        alert(' Pedido enviado com sucesso! Obrigado por participar.');
+        form.reset();
+        fecharModal();
+      } else {
+        alert('❌ Ocorreu um erro. Tente novamente.');
+      }
+    });
   </script>
 </body>
 </html>
