@@ -116,7 +116,7 @@
       text-align: center;
       margin-top: 0;
       color: #ffffff;
-      text-shadow: 0 0 10px #2b006b;
+      text-shadow: 0 0 10px #3d0066;
     }
 
     .close-btn {
@@ -165,6 +165,13 @@
       box-shadow: 0 0 15px #a66eff;
     }
 
+    .total-arrecadado {
+      margin-top: 25px;
+      font-size: 1.3em;
+      color: #ffffff;
+      text-shadow: 0 0 8px #4b0082;
+    }
+
     @media (max-width: 600px) {
       .button {
         flex: 1 1 100%;
@@ -180,17 +187,17 @@
     <p><strong>PIX para doação:</strong> 089.885.639-64 (CPF)</p>
 
     <div class="button-grid">
-      <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doação%20de%20roupas%20e%20sapatos.%20Fico%20no%20aguardo%20das%20instruções.%20Obrigado(a)!" 
-         class="button" target="_blank" rel="noopener noreferrer">Quero doar roupas e sapatos</a>
-
-      <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AEstou%20entrando%20em%20contato%20para%20saber%20onde%20e%20com%20quem%20posso%20deixar%20a%20doação%20de%20doces.%20Fico%20no%20aguardo%20das%20instruções.%20Obrigado(a)!" 
-         class="button" target="_blank" rel="noopener noreferrer">Quero doar doces</a>
-
+      <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AQuero%20doar%20roupas%20e%20sapatos." class="button" target="_blank">Quero doar roupas e sapatos</a>
+      <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AQuero%20doar%20doces." class="button" target="_blank">Quero doar doces</a>
       <button class="button" onclick="abrirModal()">Pedidos de Natal</button>
       <button class="button" onclick="compartilharSite()">Compartilhar Site</button>
     </div>
 
     <p>Seu gesto será lembrado na escuridão, como um raio de esperança.</p>
+
+    <div class="total-arrecadado">
+      💰 Valor arrecadado até agora: <strong id="totalValor">R$ 0,00</strong>
+    </div>
   </div>
 
   <!-- Modal -->
@@ -198,11 +205,9 @@
     <div class="modal-content">
       <span class="close-btn" onclick="fecharModal()">&times;</span>
       <h2>Pedido de Natal</h2>
-
-      <!-- 🚨 Substitua o link abaixo pelo SEU link do Formspree -->
-      <form id="pedidoForm" action="https://formspree.io/f/xgvnbkpb" method="POST">
+      <form id="pedidoForm">
         <label>1. Você é:</label>
-        <select name="tipo" required>
+        <select id="tipo" required>
           <option value="">Selecione...</option>
           <option value="Criança">Criança</option>
           <option value="Idoso">Idoso</option>
@@ -211,13 +216,16 @@
         </select>
 
         <label>2. Nome:</label>
-        <input type="text" name="nome" required placeholder="Digite seu nome" />
+        <input type="text" id="nome" required placeholder="Digite seu nome" />
 
         <label>3. Desejos/Pedidos de Natal:</label>
-        <textarea name="pedido" required placeholder="Escreva aqui seus pedidos..."></textarea>
+        <textarea id="pedido" required placeholder="Escreva aqui seus pedidos..."></textarea>
 
         <label>4. Gmail (opcional):</label>
-        <input type="email" name="gmail" placeholder="seuemail@gmail.com" />
+        <input type="email" id="gmail" placeholder="seuemail@gmail.com" />
+
+        <label>5. Valor da doação (opcional):</label>
+        <input type="number" id="valor" step="0.01" min="0" placeholder="Ex: 50.00" />
 
         <button type="submit" class="submit-btn">Enviar Pedido</button>
       </form>
@@ -226,9 +234,38 @@
 
   <script>
     const modal = document.getElementById('pedidoModal');
+    const form = document.getElementById('pedidoForm');
+    const totalValorEl = document.getElementById('totalValor');
+
+    let totalArrecadado = parseFloat(localStorage.getItem('totalArrecadado')) || 0;
+    atualizarTotal();
+
     function abrirModal() { modal.style.display = 'flex'; }
     function fecharModal() { modal.style.display = 'none'; }
-    window.onclick = (event) => { if (event.target === modal) fecharModal(); };
+    window.onclick = e => { if (e.target === modal) fecharModal(); };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const tipo = document.getElementById('tipo').value;
+      const nome = document.getElementById('nome').value;
+      const pedido = document.getElementById('pedido').value;
+      const gmail = document.getElementById('gmail').value;
+      const valor = parseFloat(document.getElementById('valor').value) || 0;
+
+      // Atualiza o total arrecadado localmente
+      totalArrecadado += valor;
+      localStorage.setItem('totalArrecadado', totalArrecadado);
+      atualizarTotal();
+
+      alert("🎄 Pedido enviado com sucesso!\nMuito obrigado por participar!");
+      form.reset();
+      fecharModal();
+    });
+
+    function atualizarTotal() {
+      totalValorEl.textContent = "R$ " + totalArrecadado.toFixed(2).replace('.', ',');
+    }
 
     function compartilharSite() {
       if (navigator.share) {
@@ -241,26 +278,6 @@
         alert('Copie o link e compartilhe: ' + window.location.href);
       }
     }
-
-    // Envio sem sair da página
-    const form = document.getElementById('pedidoForm');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = new FormData(form);
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (response.ok) {
-        alert(' Pedido enviado com sucesso! Obrigado por participar.');
-        form.reset();
-        fecharModal();
-      } else {
-        alert('❌ Ocorreu um erro. Tente novamente.');
-      }
-    });
   </script>
 </body>
 </html>
