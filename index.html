@@ -79,6 +79,13 @@
       outline: none;
     }
 
+    .total-arrecadado {
+      margin: 15px 0 25px 0;
+      font-size: 1.3em;
+      color: #ffffff;
+      text-shadow: 0 0 8px #4b0082;
+    }
+
     /* Modal estilo Hollow Knight */
     .modal {
       display: none;
@@ -165,13 +172,6 @@
       box-shadow: 0 0 15px #a66eff;
     }
 
-    .total-arrecadado {
-      margin-top: 25px;
-      font-size: 1.3em;
-      color: #ffffff;
-      text-shadow: 0 0 8px #4b0082;
-    }
-
     @media (max-width: 600px) {
       .button {
         flex: 1 1 100%;
@@ -186,6 +186,11 @@
     <p>Doações em dinheiro, roupas, sapatos ou doces. Para crianças ou idosos, diga seus desejos de Natal!</p>
     <p><strong>PIX para doação:</strong> 089.885.639-64 (CPF)</p>
 
+    <!-- Total arrecadado agora abaixo do PIX -->
+    <div class="total-arrecadado">
+      💰 Valor arrecadado até agora: <strong id="totalValor">R$ 0,00</strong>
+    </div>
+
     <div class="button-grid">
       <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AQuero%20doar%20roupas%20e%20sapatos." class="button" target="_blank">Quero doar roupas e sapatos</a>
       <a href="https://wa.me/5548984009981?text=Olá%2C%20Ana!%20Tudo%20bem%3F%0AQuero%20doar%20doces." class="button" target="_blank">Quero doar doces</a>
@@ -194,10 +199,6 @@
     </div>
 
     <p>Seu gesto será lembrado na escuridão, como um raio de esperança.</p>
-
-    <div class="total-arrecadado">
-      💰 Valor arrecadado até agora: <strong id="totalValor">R$ 0,00</strong>
-    </div>
   </div>
 
   <!-- Modal -->
@@ -247,10 +248,6 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const tipo = document.getElementById('tipo').value;
-      const nome = document.getElementById('nome').value;
-      const pedido = document.getElementById('pedido').value;
-      const gmail = document.getElementById('gmail').value;
       const valor = parseFloat(document.getElementById('valor').value) || 0;
 
       // Atualiza o total arrecadado localmente
